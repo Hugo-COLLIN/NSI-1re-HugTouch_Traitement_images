@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Traitement d'images</title>
+</head>
+<body>
+    <p>
+        <img id="monImage" src="image.jpg">
+        &nbsp;
+        <canvas id="monCanvas"></canvas>
+    </p>
+    <p>
+        <input id="btnGris" type="button" value="Niveaux de gris"/>&nbsp;
+        <input id="btnRetourne" type="button" value="Retournement"/>&nbsp;
+        <input id="btnFloute" type="button" value="Floutage"/>
+    </p>
+    <script>
+        var btnGris=document.getElementById("btnGris");
+        var btnRetourne=document.getElementById("btnRetourne");
+        var btnFloute=document.getElementById("btnFloute");
+        btnGris.onclick=gris;
+        btnRetourne.onclick=retourne;
+        btnFloute.onclick=floute;
+    </script>
+    
+    
+    
+    
+    
+</body>

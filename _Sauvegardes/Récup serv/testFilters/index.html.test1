@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<title>Traitement d'images</title>
+</head>
+<body>
+<!--L'interface utilisateur est composée :
+* d'un élément {{{img}}},
+* d'un élément {{{canvas}}},
+* de 3 boutons.
+
+L'élément {{{img}}} contient l'image à traiter.
+
+L'élément {{{canvas}}} est l'élément dans lequel vont se faire les traitements : on ne peut traiter des images que dans ce type d'élément, en particulier il est impossible de traiter directement une image
+dans un élément {{{img}}}.-->
+<p>
+<img id="monImage" src="image.jpeg">
+&nbsp;
+<canvas id="monCanvas" width="300px" height="150px"></canvas>
+</p>
+<p>
+<!--Boutons qui permettent d'appeler la fonction de traitement désirée.-->
+<input id="btnGris" type="button" value="Niveaux de gris"/>&nbsp;
+<input id="btnRetourne" type="button" value="Retournement"/>&nbsp;
+<input id="btnFloute" type="button" value="Floutage"/>
+</p>
+<!--Le code source du programme en JavaScript de traitement d'image début ici :-->
+<script>
+/*L'instruction {{{document.getElementById}}} permet d'obtenir des variables qui représentent les
+éléments de l'interface utilisateur et ainsi pouvoir les manipuler par programmation.
+
+Avec ces lignes de programme, chaque bouton devient opérationnel pour réaliser
+le traitement en appelant la fonction correspondante.*/
+	alert("charge");
+    var btnGris=document.getElementById("btnGris");
+	var btnRetourne=document.getElementById("btnRetourne");
+	var btnFloute=document.getElementById("btnFloute");
+
+	btnGris.onclick=gris;
+	btnRetourne.onclick=retourne;
+	btnFloute.onclick=floute;
+/*Variables représentant l'élément {{{img}}} et l'élément {{{canvas}}}.*/
+	var image = document.getElementById("monImage");
+    //image.crossOrigin = "Anonymous"; //Ajouté
+	var canvas = document.getElementById("monCanvas");  
+/*Pour pouvoir agir sur un élément {{{canvas}}} il faut obtenir un contexte qui donne accès à un
+ensemble d'instructions. Ici nous utilisons un contexte "2d" qui permet de manipuler le {{{canvas}}}
+avec un système de repèrage des pixels en deux dimensions.*/
+	var ctx = canvas.getContext("2d");
+/*Avant de mettre en place les différents éléments pour traiter l'image, nous devons nous
+assurer qu'elle est entièrement chargée, en particulier pour être sûr que les propriétés
+{{{width}}} et {{{height}}} sont bien définies.*/
+	image.onload=function(){
+/*Nous mettons le {{{canvas}}} aux dimensions de l'image.
+
+Ensuite nous "dessinons" l'image dans le {{{canvas}}}, ce qui revient à copier le contenu
+de l'élément {{{img}}} dans le {{{canvas}}} : à ce stade aucun traitement n'est réalisé.*/
+		canvas.width=image.width;
+		canvas.height=image.height;
+		ctx.drawImage(image,0,0);
+/*L'image affichée dans le {{{canvas}}} est constitué de pixels, chaque pixel est codé sur
+4 octets :
+* un octet pour la composante rouge,
+* un octet pour la composante verte,
+* un octet pour la composante bleue,
+* un octet pour la composante alpha qui indique la transparence (de 0 pour un pixel
+complètement transparent à 255 pour un pixel complètement opaque).
+
+L'instruction {{{ctx.getImageData}}} permet de récupérer un objet qui contient les informations d'image d'une zone du {{{canvas}}}. Il contient les dimensions de la zone et la propriété {{{data}}} qui est un tableau contenant les différents octets qui codent les pixels de l'image.
+
+Ainsi {{{imageDataSource.data}}} contient
+l'ensemble des octets qui définissent les pixels du contenu du {{{canvas}}} qui sont en fait
+les pixels de l'image qu'on vient d'y recopier.
+
+Les 4 premiers éléments de ce tableau sont les 4 premiers octets de l'information du pixel en haut à gauche,
+les 4 suivants sont pour le pixel à sa droite, et ainsi de suite jusqu'aux 4 derniers éléments
+qui donnent les informations pour le pixels en bas à droite.
+
+Note : il n'y a pas de {{{var}}} devant {{{imageDataSource}}}, sinon la variable serait locale
+à la fonction et donc inacessible par la suite.*/
+		imageDataSource = ctx.getImageData(0, 0,image.width,image.height);
+	}
+/***Passage en niveaux de gris**
+
+Nous utilisons la méthode de la moyenne arithmétique.
+
+Nous commençons par créer un nouvel objet {{{imageData}}} nommé {{{imageDataResult}}} aux dimensions de l'image et qui sera utilisé pour construire le résultat du traitement.
+
+Le tableau des informations des pixels sources est parcouru, à chaque tour de boucle, le compteur
+avance de 4 (chaque pixel est codé sur 4 octets).
+
+Dans le tableau d'informations de pixels {{{imageDataResult.data}}} chacun des pixels est défini avec les trois composantes de couleur identiques : la moyenne des composantes rouge, vert et bleu du pixel d'origine.*/
+	function gris(){
+        alert("gris appuyé");
+		var imageDataResult=ctx.createImageData(image.width,image.height);
+		
+		var gris;
+
+		for(var i=0,l=imageDataSource.data.length;i<l;i=i+4){
+           	// console.log(i);
+			gris=(imageDataSource.data[i]+imageDataSource.data[i+1]+imageDataSource.data[i+2])/3;
+			imageDataResult.data[i]=gris;
+			imageDataResult.data[i+1]=gris;
+			imageDataResult.data[i+2]=gris;
+			imageDataResult.data[i+3]=imageDataSource.data[i+3]; //Transparence non modifiée
+		}
+        alert("5");
+/*Pour rendre le résultat visible à l'écran, il faut envoyer dans le {{{canvas}}} l'image dont les informations figurent dans {{{imageDataResult}}} qui vient d'être créé.*/
+        alert("10");
+		ctx.putImageData(imageDataResult,0,0);
+        alert("20");
+	}
+/***Position physique et position dans {{{data}}}**
+
+Habituellement lorsque l'on travaille avec des images les pixels se  repèrent physiquement en plaçant l'origine en haut à gauche et du coup les ordonnées croissent vers le bas.
+
+Par contre dans le tableau {{{data}}} les données des pixels sont rangées les unes à la suite des autres,
+ce qui rend toute manipulation qui fait intervenir les coordonnées impossible à gérer directement.
+
+Pour contourner le problème voici la fonction {{{conversion}}} qui à partir des coordonnées physiques
+du pixel retourne la position dans {{{data}}} du premier octet qui défini ses caratéristiques.*/
+	function conversion(x,y){
+		return (y*image.width+x)*4;	
+	}
+/***Retournement**
+
+Le pixel en position (x,y) passe en position (x,hauteur-y).
+
+L'utilisation de la fonction {{{conversion}}} est indispensable pour gérer facilement ce "jeu" sur
+les coordonnées.*/
+	function retourne(){
+		var imageDataResult=ctx.createImageData(image.width,image.height);
+		var posSrc,posDest;
+/*Les deux boucles imbriquées permettent de générer les coordonnées des pixels de l'image
+ligne par ligne.*/
+		for(var y=0,h=image.height;y<h;y++){
+			for(var x=0,w=image.width;x<w;x++){
+				posSrc=conversion(x,y);
+				posDest=conversion(x,h-y);
+				//Recopie des 4 octets qui définissent le pixel.
+				for(var i=0;i<4;i++)imageDataResult.data[posDest+i]=imageDataSource.data[posSrc+i];
+
+			}
+		}	
+
+		ctx.putImageData(imageDataResult, 0, 0); 
+	}
+/***Floutage**
+
+Les deux boucles principales imbriquées permettent de parcourir les pixels de l'image avec le pas {{{granularite}}}. Ainsi (i,j) représente la position du pixel en haut et à gauche d'une carré de côté {{{granularite}}}.*/
+	function floute(){
+		var imageDataResult=ctx.createImageData(image.width,image.height);
+		var granularite=7;
+		var rouge,vert,bleu;
+		var pos;
+
+		for(var i=0;i<image.width-image.width%granularite;i=i+granularite){
+			for(var j=0;j<image.height-image.height%granularite;j=j+granularite){
+				rouge=0; vert=0; bleu=0;
+/*Nous utilisons de nouveau deux boucles imbriquées pour générer les coordonnées des pixels
+du carré qui seront rendus ensuite dans une couleur uniforme.
+
+Pour déterminer cette couleur, on cumule les valeurs des composantes rouge, vert et bleu
+de tous les pixels du carré.*/
+				for(var x=i;x<i+granularite;x++){
+					for(var y=j;y<j+granularite;y++){
+						pos=conversion(x,y);
+						rouge+=imageDataSource.data[pos];
+						vert+=imageDataSource.data[pos+1];
+						bleu+=imageDataSource.data[pos+2];
+					}
+				}
+/*En divisant les cumuls de rouge, vert et bleu par {{{granularite*granularite}}}, {{{rouge}}}, {{{vert}}} 
+et {{{bleu}}} contiennent maintenant les moyennes des composantes.*/
+				rouge=rouge/(granularite*granularite);
+				vert=vert/(granularite*granularite);
+				bleu=bleu/(granularite*granularite);
+/*Ces deux dernière boucles imbriquées permettent de définir tous les pixels
+de la zone carrée avec la même couleur "moyenne" calculée juste avant.*/
+				for(var x=i;x<i+granularite;x++){
+					for(var y=j;y<j+granularite;y++){
+						pos=conversion(x,y);
+						imageDataResult.data[pos]=rouge;
+						imageDataResult.data[pos+1]=vert;
+						imageDataResult.data[pos+2]=bleu;
+						imageDataResult.data[pos+3]=imageDataSource.data[pos+3]; //Transparence identique
+					}
+				}
+			}
+		}
+		ctx.putImageData(imageDataResult,0,0); 
+	}
+</script>
+</body>
+</html>

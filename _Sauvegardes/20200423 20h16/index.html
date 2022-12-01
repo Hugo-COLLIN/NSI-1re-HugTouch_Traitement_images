@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
+        <title>HugTouch' - Retouche d'image gratuit</title>
+    </head>    
+    <body>
+        <header>
+            <div>
+                <h1>HugTouch' - Retouche d'image gratuit</h1>
+                <nav>
+                    <ul>
+                        <li><a href="#">L'éditeur</a></li>
+                        <li><a href="#instructions">Instructions et recommandations</a></li>
+                        <li><a></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>    
+        <div class="space"></div>
+        <section id="editor-zone">
+            <div id="left"><center>
+                <article id="start">
+                    <h2>Cliquez ici pour charger une image !</h2><br>
+                    <img src="Images/download.svg" height="300"><br>
+                    <a>Pas d'idée ? Essayez avec une image test ici.</a><br>
+                    <a>Lire les instructions et recommandations.</a><br>
+                    <input type="file" accept="image/*" id="input">
+                </article></center>
+                <canvas id="canvas"></canvas>
+            </div>
+            
+            <div id="menu">
+                <h2><center>Outils</center></h2>
+                <div class="little-space"></div>
+                <table border="0" id="principal">
+                    <tr>
+                        <td title="Charger une nouvelle image (remplace l'image actuelle)">
+                            <div class="clickable">
+                                <label for="input" style="cursor:pointer">
+                                    <img src="Images/add.png" width="50px" height="50px"/>
+                                    <p>Charger l'image</p>
+                                </label>
+                                <input type="file" accept="image/*" id="input">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="clickable" onclick="restore();">
+                                <img src="Images/restore.png" width="25px" height="35px"/>
+                                <span><br><br>Annuler</span>
+                            </div>
+                        </td>
+                        <td title="Savegarder l'image modifiée sur le disque local">
+                            <a id="download" download="picture.png" onClick="saveAs()">
+                                <div class="clickable">
+                                    <img src="Images/save.png" width="30px" height="30px"/>
+                                    <br><br><button type="button" id="downloadButton">Télécharger</button>
+                                    <!--<span><br><br>Télécharger</span>
+                                    -->
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                </table>                    
+                <hr>
+                <div id="allFiltersOptions">
+                    <button class="options">Corrections/Ajustements</button>
+                    <div class="filtres">
+                        <!--<button onclick="modifVal('blur+');">Défaut</button>-->
+                        <p class="filter">
+                            Floutage : <span id="blurTxt">0px</span><br>
+                            <button onclick="newValue(-1, 'bluring')">-</button> <input id="blur" type="range" max="10" min="0" value="0"> <button onclick="newValue(1, 'bluring')">+</button>
+                        </p>
+                        <br>
+                        <p class="filter">
+                            Luminosité : <span id="brightnessTxt">100%</span><br>
+                            <button onclick="newValue(-10, 'brightness')">-</button> <input id="brightness" type="range" max="300" min="0" value="100"> <button onclick="newValue(10, 'brightness')">+</button>
+                        </p>
+                        <br>
+                        <p class="filter">
+                            Contraste : <span id="contrastTxt">100%</span><br>
+                            <button onclick="newValue(-10, 'contrast')">-</button> <input id="contrast" type="range" max="100" min="0" value="100"> <button onclick="newValue(10, 'contrast')">+</button>
+                        </p>
+                        <br>
+                        <p class="filter">
+                            Inversion des couleurs : <span id="invertTxt">0%</span><br>
+                            <button onclick="newValue(-10, 'invert')">-</button> <input id="invert" type="range" max="100" min="0" value="0"> <button onclick="newValue(10, 'invert')">+</button> 
+                        </p>
+                        <br>
+                        <!--<p class="filter">
+                            Opacité : <span id="x">0%</span><br>
+                            <button onclick="newValue(-10, 'x')">-</button> <input id="a" type="range" max="100" min="0" value="100">
+                        </p>
+                        <br>-->
+                        <p class="filter">
+                            Saturation : <span id="saturateTxt">100%</span><br>
+                            <button onclick="newValue(-10, 'saturate')">-</button> <input id="saturate" type="range" max="100" min="0" value="100"> <button onclick="newValue(10, 'saturate')">+</button> 
+                        </p>
+                        <br>
+                        <p class="filter">
+                            Rotation de teintes : <span id="hueRotateTxt">0°</span><br>
+                            <button onclick="newValue(-15, 'hueRotate')">-</button> <input id="hueRotate" type="range" max="360" min="0" value="0"> <button onclick="newValue(15, 'hueRotate')">+</button> 
+                        </p>
+                        <br>
+                    </div>
+                    <hr>
+                    <button class="options">Couleur</button>
+                    <div class="filtres">
+                        <p class="filter">
+                            Niveau de gris : <span id="grayscaleTxt">0%</span><br>
+                            <button onclick="newValue(-10, 'grayscale')">-</button> <input id="grayscale" type="range" max="100" min="0" value="0"> <button onclick="newValue(10, 'grayscale')">+</button> 
+                        </p>
+                        <br>
+                        <p class="filter">
+                            Sepia : <span id="sepiaTxt">0%</span><br>
+                            <button onclick="newValue(-10, 'sepia')">-</button> <input id="sepia" type="range" max="100" min="0" value="0"> <button onclick="newValue(10, 'sepia')">+</button> 
+                        </p>
+                        <br>
+                        <button id="blueFilter" onclick="blueFilter();">Bleu</button>
+                        <button id="redFilter" onclick="redFilter();">Rouge</button>
+                        <button onclick="greyFilter();">Niveau de gris</button>
+                        <button onclick="lightgreyFilter();">Niveau de gris clair</button>
+                        <button onclick="lightFilter();">Eclaircir</button>
+                    </div>
+                    <hr>
+                    <button class="options">Transformations</button>
+                    <div class="filtres">
+                        <div id="sizeFilter">
+                            <button onclick="shrink();">-</button>
+                            <span class="filter" id="sizeText"></span>
+                            <button onclick="enlarge();">+</button>
+                        </div>
+                        <div id="rotatFilter">
+                            <button onclick="pivoter(-90);">Sens anti-horaire</button>
+                            <span class="filter" id="rotatText">Rotation de 90°</span>
+                            <button onclick="clockwise();">Sens horaire</button>
+                        </div>
+                        <div id="reverseFilter">
+                            <button onclick="horizontalReverse();">Inversion horizontale</button>
+                            <button onclick="verticalReverse();">Inversion verticale</button>
+                        </div>
+                    </div>
+                    <hr>                    
+                </div>
+                    <ul>
+                        <li>
+                            <h4>Effets artistiques</h4>
+                        </li>
+                        <li>
+                            <h4>Dessiner</h4>
+                        </li>
+                    </ul>
+            </div>
+        </section>
+        <div class="space"></div>
+        <section id="instructions">
+            <div class="paragraphe">
+                <h2>Instructions et recommandations</h2>
+                <div class="space"></div>
+                <p>Avec cet outil de traîtement d'images sur le web, vous pourrez facilement modifier vos images avec différents filtres et outils.</p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Ce projet à été réalisé en 2020 dans le cadre de la spécialité NSI en 1re <br> par Hugo COLLIN, élève au lycée PMF Epinal.</p>
+        </footer>
+        <script src="script.js"></script>
+    </body>
+</html>

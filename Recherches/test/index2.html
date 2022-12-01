@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<title>Traitement d'images</title>
+</head>
+<body>
+<p>
+<img id="monImage" src="image.jpeg">
+&nbsp;
+<canvas id="monCanvas"></canvas>
+</p>
+<p>
+<input id="btnGris" type="button" value="Niveaux de gris"/>&nbsp;
+<input id="btnRetourne" type="button" value="Retournement"/>&nbsp;
+<input id="btnFloute" type="button" value="Floutage"/>
+</p>
+<script>
+	var btnGris=document.getElementById("btnGris");
+	var btnRetourne=document.getElementById("btnRetourne");
+	var btnFloute=document.getElementById("btnFloute");
+
+	btnGris.onclick=gris;
+	btnRetourne.onclick=retourne;
+	btnFloute.onclick=floute;
+	var image = document.getElementById("monImage");
+	var canvas = document.getElementById("monCanvas");  
+	var ctx = canvas.getContext("2d");
+	image.onload=function(){
+		canvas.width=image.width;
+		canvas.height=image.height;
+		ctx.drawImage(image,0,0);
+		imageDataSource = ctx.getImageData(0, 0,image.width,image.height);
+	}
+	function gris(){
+		var imageDataResult=ctx.createImageData(image.width,image.height);
+		
+		var gris;
+
+		for(var i=0,l=imageDataSource.data.length;i<l;i=i+4){
+			gris=(imageDataSource.data[i]+imageDataSource.data[i+1]+imageDataSource.data[i+2])/3;
+			imageDataResult.data[i]=gris;
+			imageDataResult.data[i+1]=gris;
+			imageDataResult.data[i+2]=gris;
+			imageDataResult.data[i+3]=imageDataSource.data[i+3]; //Transparence non modifiée
+		}
+		ctx.putImageData(imageDataResult,0,0); 
+	}
+	function conversion(x,y){
+		return (y*image.width+x)*4;	
+	}
+	function retourne(){
+		var imageDataResult=ctx.createImageData(image.width,image.height);
+		var posSrc,posDest;
+		for(var y=0,h=image.height;y<h;y++){
+			for(var x=0,w=image.width;x<w;x++){
+				posSrc=conversion(x,y);
+				posDest=conversion(x,h-y);
+				//Recopie des 4 octets qui définissent le pixel.
+				for(var i=0;i<4;i++)imageDataResult.data[posDest+i]=imageDataSource.data[posSrc+i];
+
+			}
+		}	
+
+		ctx.putImageData(imageDataResult, 0, 0); 
+	}
+	function floute(){
+		var imageDataResult=ctx.createImageData(image.width,image.height);
+		var granularite=7;
+		var rouge,vert,bleu;
+		var pos;
+
+		for(var i=0;i<image.width-image.width%granularite;i=i+granularite){
+			for(var j=0;j<image.height-image.height%granularite;j=j+granularite){
+				rouge=0; vert=0; bleu=0;
+				for(var x=i;x<i+granularite;x++){
+					for(var y=j;y<j+granularite;y++){
+						pos=conversion(x,y);
+						rouge+=imageDataSource.data[pos];
+						vert+=imageDataSource.data[pos+1];
+						bleu+=imageDataSource.data[pos+2];
+					}
+				}
+				rouge=rouge/(granularite*granularite);
+				vert=vert/(granularite*granularite);
+				bleu=bleu/(granularite*granularite);
+				for(var x=i;x<i+granularite;x++){
+					for(var y=j;y<j+granularite;y++){
+						pos=conversion(x,y);
+						imageDataResult.data[pos]=rouge;
+						imageDataResult.data[pos+1]=vert;
+						imageDataResult.data[pos+2]=bleu;
+						imageDataResult.data[pos+3]=imageDataSource.data[pos+3]; //Transparence identique
+					}
+				}
+			}
+		}
+		ctx.putImageData(imageDataResult,0,0); 
+	}
+</script>
+</body>
+</html>

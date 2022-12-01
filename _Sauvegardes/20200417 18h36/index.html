@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
+        <title>HugTouch' - Retouche d'image gratuit</title>
+    </head>    
+    <body>
+        <header>
+            <div>
+                <h1>HugTouch' - Retouche d'image gratuit</h1>
+                <nav>
+                    <ul>
+                        <li><a href="#">L'éditeur</a></li>
+                        <li><a href="#instructions">Instructions et recommandations</a></li>
+                        <li><a></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>    
+        <div class="space"></div>
+        <section id="editor-zone">
+            <div id="left"><center>
+                <article id="start">
+                    <h2>Cliquez ici pour charger une image !</h2><br>
+                    <img src="Images/download.svg" height="300"><br>
+                    <a>Pas d'idée ? Essayez avec une image test ici.</a><br>
+                    <a>Lire les instructions et recommandations.</a><br>
+                    <input type="file" accept="image/*" id="input">
+                </article></center>
+                <canvas id="canvas"></canvas>
+            </div>
+            
+            <div id="menu">
+                <h2><center>Outils</center></h2>
+                <div class="little-space"></div>
+                <table border="0" id="principal">
+                    <tr>
+                        <td title="Charger une nouvelle image (remplace l'image actuelle)">
+                            <div class="clickable">
+                                <label for="input" style="cursor:pointer">
+                                    <img src="Images/add.png" width="50px" height="50px"/>
+                                    <p>Charger l'image</p>
+                                </label>
+                                <input type="file" accept="image/*" id="input">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="clickable" onclick="restore();">
+                                <img src="Images/restore.png" width="25px" height="35px"/>
+                                <span><br><br>Annuler</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="clickable">
+                                <img src="Images/save.png" width="30px" height="30px"/>
+                                <span><br><br>Télécharger</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>                    
+                <hr>
+                <button class="options">Transformations</button>
+                <div class="filtres">
+                    <button onclick="shrink();">-</button>
+                    <span class="filter">Taille : x1</span>
+                    <button onclick="enlarge();">+</button>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+                <hr>
+                <button class="options">Couleur</button>
+                <div class="filtres">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+                    <ul>
+                        <li>
+                            
+                        </li>
+                        <li>
+                            <h4>Couleur</h4>
+                        </li>
+                        <li>
+                            <h4>Effets artistiques</h4>
+                        </li>
+                        <li>
+                            <h4>Corrections/Ajustements</h4>
+                        </li>
+                        <li>
+                            <h4>Dessiner</h4>
+                        </li>
+                        <li>
+                            <button id="download" onclick="z();">Télécharger</button>
+                        </li>
+                        </ul>
+            </div>
+        </section>
+        <div class="space"></div>
+        <section id="instructions">
+            <div class="paragraphe">
+                <h2>Instructions et recommandations</h2>
+                <p>Avec cet outil de traîtement d'images sur le web, vous pourrez facilement</p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Ce projet à été réalisé dans le cadre de la spécialité NSI en 1re.</p>
+        </footer>
+        <script src="script.js"></script>
+    </body>
+</html>

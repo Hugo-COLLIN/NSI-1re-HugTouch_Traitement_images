@@ -1,0 +1,37 @@
+<input type="range" name="range1" step="1" value="20" min="0" max="100" oninput="run(this.value)" id="range1" />
+<output id="out1">20</output>
+
+<input type="range" name="range2" step="1" value="37" min="0" max="100" oninput="run(this.value)" id="range2" />
+<output id="out2">37</output>
+<br>
+<button onclick="setNewValue(1)">+</button>
+<button onclick="setNewValue(-1)">-</button>
+<br>
+<br>
+<br>
+<h2>+ :increment 1 value on both of them</h2>
+<h2>- :decrement 1 value on both of them</h2>
+and live change
+
+<script src="script.js">
+    var confirmOnLeave = function(msg) {
+ 
+        window.onunload = function (e) {
+            e = e || window.event;
+            msg = msg || '';
+ 
+            // For IE and Firefox
+            if (e) {e.returnValue = msg;}
+ 
+            // For Chrome and Safari
+            return msg;
+        };
+ 
+    };
+ 
+// message de confirmation générique du navigateur
+confirmOnLeave();
+ 
+// message de confirmation personnalisé
+confirmOnLeave('Vous allez perdre votre travail, êtes vous sûr(e) de vouloir quitter la page ?');
+</script>

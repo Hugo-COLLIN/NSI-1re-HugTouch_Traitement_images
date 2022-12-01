@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="styles.css">
+        <title>HugTouch' - Retouche d'image gratuit</title>
+    </head>    
+    <body>
+        <script src="script.js"></script>
+        <header>
+            <div>
+                <h1>HugTouch' - Retouche d'image gratuit</h1>
+                <nav>
+                    <ul>
+                        <li><a href="#">L'éditeur</a></li>
+                        <li><a href="#instructions">Instructions et recommandations</a></li>
+                        <li><a></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>    
+        <div class="space"></div>
+        <section id="editor-zone">
+            <div id="left"><center>
+                <article id="start">
+                    <h2>Cliquez ici pour charger une image !</h2><br>
+                    <img src="Images/download.svg" height="300"><br>
+                    <a>Pas d'idée ? Essayez avec une image test ici.</a><br>
+                    <a>Lire les instructions et recommandations.</a><br>
+                    <input type="file" accept="image/*" onchange="picLoaded(event);" id="test">
+                </article></center>
+                <img id="displayPic"/>
+            
+                <article>
+                    
+                </article>
+
+            </div>
+            
+            <div id="menu">
+                    <h3>Outils</h3>
+                        <ul>
+                            <li>
+                                <h4>Rogner/Faire pivoter</h4>
+                            </li>
+                            <li>
+                                <h4>Couleur</h4>
+                            </li>
+                            <li>
+                                <h4>Effets artistiques</h4>
+                            </li>
+                            <li>
+                                <h4>Corrections/Ajustements</h4>
+                            </li>
+                            <li>
+                                <h4>Dessiner</h4>
+                            </li>
+                            <li>
+                                <button id="download">Télécharger</button>
+                            </li>
+                        </ul>
+            </div>
+        </section>
+        <div class="space"></div>
+        <section id="instructions">
+            <div class="paragraphe">
+                <h2>Instructions et recommandations</h2>
+                <p>Avec cet outil de traîtement d'images sur le web, vous pourrez facilement</p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Ce projet à été réalisé dans le cadre de la spécialité NSI en 1re.</p>
+        </footer>
+
+    </body>
+</html>

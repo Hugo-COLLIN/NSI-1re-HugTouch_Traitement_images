@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
+        <title>HugTouch' - Retouche d'image gratuit</title>
+        <link rel="icon" href="Images/logo.png" type="image/x-icon">
+    </head>    
+    <body>
+        <header>
+            <div>
+                <h1>HugTouch' - Retouche d'images gratuit</h1>
+                <nav id="nav">
+                    <ul>
+                        <li><a href="#" onclick="dispEditor();">Editeur</a></li>
+                        <li><a href="#" onclick="dispGuide();">Guide d'utilisation</a></li>
+                        <li><a></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>    
+        <div class="space"></div>
+        <div id="menu">
+            <h2><center>Outils</center></h2>
+            <div class="little-space"></div>
+            <div id="selectPic">
+                <label for="input" style="cursor:pointer">
+                <table border="0" id="principal" class="filter">
+                    <tr>
+                        <td title="Charger une image">
+                            <img src="Images/add.png" width="50px" height="50px"/>
+                            <input type="file" accept="image/*" id="input">
+                        </td>
+                        <td title="Charger une image">
+                            <span>Charger une image</span>
+                        </td>
+                    </tr>
+                </table>
+                </label>
+                <input type="file" accept="image/*" id="input">
+                <hr>
+                <br>
+                <p>... ou choisissez parmi ces images :</p>
+                <table border="0" id="principal" class="filter">
+                    <tr onclick="picChoosed('flowers')" title="Cliquez pour modifier cette image.">
+                        <td>
+                            <img src="Images/poppy-5058494_1000.jpg" class="chooser"/>
+                            <input type="file" accept="image/*" id="input">
+                        </td>
+                        <td >
+                            <span>Fleurs oranges</span>
+                        </td>
+                    </tr>
+                    <tr onclick="picChoosed('sunsetLandscape')" title="Cliquez pour modifier cette image.">
+                        <td>
+                            <img src="Images/landscape-4920705_1000.jpg" class="chooser"/>
+                            <input type="file" accept="image/*" id="input">
+                        </td>
+                        <td>
+                            <span>Aurore maritime</span>
+                        </td>
+                    </tr>
+                    <tr onclick="picChoosed('road')" title="Cliquez pour modifier cette image.">
+                        <td>
+                            <img src="Images/road-220058_1000.jpg" class="chooser"/>
+                            <input type="file" accept="image/*" id="input">
+                        </td>
+                        <td>
+                            <span>Route</span>
+                        </td>
+                    </tr>
+                    <tr onclick="picChoosed('wave')" title="Cliquez pour modifier cette image.">
+                        <td>
+                            <img src="Images/beach-2179183_1000.jpg" class="chooser"/>
+                            <input type="file" accept="image/*" id="input">
+                        </td>
+                        <td>
+                            <span>Vague marine</span>
+                        </td>
+                    </tr>
+                    <tr onclick="picChoosed('nightCactus')" title="Cliquez pour modifier cette image.">
+                        <td>
+                            <img src="Images/milky-way-923738_1000.jpg" class="chooser"/>
+                            <input type="file" accept="image/*" id="input">
+                        </td>
+                        <td>
+                            <span>Cactus nocturnes</span>
+                        </td>
+                    </tr>
+                    <tr onclick="picChoosed('lakeSunset')" title="Cliquez pour modifier cette image.">
+                        <td>
+                            <img src="Images/lake-696098_1000.jpg" class="chooser"/>
+                            <input type="file" accept="image/*" id="input">
+                        </td>
+                        <td>
+                            <span>Coucher de soleil</span>
+                        </td>
+                    </tr>
+                    <tr onclick="picChoosed('mountain')" title="Cliquez pour modifier cette image.">
+                        <td>
+                            <img src="Images/mountains-736886_1000.jpg" class="chooser"/>
+                            <input type="file" accept="image/*" id="input">
+                        </td>
+                        <td>
+                            <span>Montagne et prairie</span>
+                        </td>
+                    </tr>
+                    <tr onclick="picChoosed('cat')" title="Cliquez pour modifier cette image.">
+                        <td>
+                            <img src="Images/cat-4877274_1000.jpg" class="chooser"/>
+                            <input type="file" accept="image/*" id="input">
+                        </td>
+                        <td>
+                            <span>Chat dans l'herbe</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="allFiltersOptions">
+                <table border="0" id="principal">
+                    <tr>
+                        <td title="Charger une nouvelle image (remplace l'image actuelle)" onclick="rePic();">
+                            <div class="clickable" style="cursor:pointer">
+                                <img src="Images/add.png" width="50px" height="50px"/>
+                                <p>Nouveau</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="clickable" onclick="restore();">
+                                <img src="Images/restore.png" width="25px" height="35px"/>
+                                <span><br><br>Annuler</span>
+                            </div>
+                        </td>
+                        <td title="Savegarder l'image modifiée sur le disque local">
+                            <a id="download" download="image.png" onClick="saveAs()">
+                                <div class="clickable">
+                                    <img src="Images/save.png" width="30px" height="30px"/>
+                                    <br><br><button type="button" id="iconButton">Télécharger</button>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                </table>                    
+                <hr>
+                    <div class="filtres">
+                        <p class="filter">
+                            <button id="iconButton" onclick="toDefault('bluring'); apply('bluring');"><img src="Images/default.png" width="15px"></button>Floutage : <span id="blurTxt">0px</span><br>
+                            <button onclick="newValue(-1, 'bluring'); apply('bluring');">-</button> <input id="bluring" type="range" max="10" min="0" value="0" oninput="newValue(0, 'bluring');" onchange="apply('bluring');"> <button onclick="newValue(1, 'bluring'); apply('bluring');">+</button>
+                        </p>
+                        <br>
+                        <hr>
+                        <p class="filter">
+                            <button id="iconButton" onclick="toDefault('brightness'); apply('brightness');"><img src="Images/default.png" width="15px"></button>Luminosité : <span id="brightnessTxt">100%</span><br>
+                            <button onclick="newValue(-10, 'brightness'); apply('brightness');">-</button> <input id="brightness" type="range" max="300" min="0" value="100" oninput="newValue(0, 'brightness');" onchange="apply('brightness');"> <button onclick="newValue(10, 'brightness'); apply('brightness');">+</button>
+                        </p>
+                        <br>
+                        <p class="filter">
+                            <button id="iconButton" onclick="toDefault('contrast'); apply('contrast');"><img src="Images/default.png" width="15px"></button>Contraste : <span id="contrastTxt">100%</span><br>
+                            <button onclick="newValue(-10, 'contrast'); apply('contrast');">-</button> <input id="contrast" type="range" max="100" min="0" value="100" oninput="newValue(0, 'contrast');" onchange="apply('contrast');"> <button onclick="newValue(10, 'contrast'); apply('contrast');">+</button>
+                        </p>
+                        <br>
+                        <p class="filter">
+                            <button id="iconButton" onclick="toDefault('saturate'); apply('saturate');"><img src="Images/default.png" width="15px"></button>Saturation : <span id="saturateTxt">100%</span><br>
+                            <button onclick="newValue(-10, 'saturate'); apply('saturate');">-</button> <input id="saturate" type="range" max="100" min="0" value="100" oninput="newValue(0, 'saturate');" onchange="apply('saturate');"> <button onclick="newValue(10, 'saturate'); apply('saturate');">+</button> 
+                        </p>
+                        <br>
+                        <hr>
+                        <p class="filter">
+                            <button id="iconButton" onclick="toDefault('invert'); apply('invert');"><img src="Images/default.png" width="15px"></button>Inversion couleurs : <span id="invertTxt">0%</span><br>
+                            <button onclick="newValue(-10, 'invert'); apply('invert');">-</button> <input id="invert" type="range" max="100" min="0" value="0" oninput="newValue(0, 'invert');" onchange="apply('invert');"> <button onclick="newValue(10, 'invert'); apply('invert');">+</button> 
+                        </p>
+                        <br>
+                        <p class="filter">
+                            <button id="iconButton" onclick="toDefault('hueRotate'); apply('hueRotate');"><img src="Images/default.png" width="15px"></button>Rotation de teintes : <span id="hueRotateTxt">0°</span><br>
+                            <button onclick="newValue(-15, 'hueRotate'); apply('hueRotate');">-</button> <input id="hueRotate" type="range" max="360" min="0" value="0" oninput="newValue(0, 'hueRotate');" onchange="apply('hueRotate');"> <button onclick="newValue(15, 'hueRotate'); apply('hueRotate');">+</button> 
+                        </p>
+                        <br>
+                        <hr>
+                        <p class="filter">
+                            <button id="iconButton" onclick="toDefault('grayscale'); apply('grayscale');"><img src="Images/default.png" width="15px"></button>Niveau de gris : <span id="grayscaleTxt">0%</span><br>
+                            <button onclick="newValue(-10, 'grayscale'); apply('grayscale');">-</button> <input id="grayscale" type="range" max="100" min="0" value="0" oninput="newValue(0, 'grayscale');" onchange="apply('grayscale');"> <button onclick="newValue(10, 'grayscale'); apply('grayscale');">+</button> 
+                        </p>
+                        <br>
+                        <p class="filter">
+                            <button id="iconButton" onclick="toDefault('sepia'); apply('sepia');" title="Revenir à la valeur par défaut"><img src="Images/default.png" width="15px"></button>Sepia : <span id="sepiaTxt">0%</span><br>
+                            <button onclick="newValue(-10, 'sepia'); apply('sepia');">-</button> <input id="sepia" type="range" max="100" min="0" value="0" oninput="newValue(0, 'sepia');" onchange="apply('sepia');"> <button onclick="newValue(10, 'sepia'); apply('sepia');">+</button> 
+                        </p>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        <section id="editor-zone">
+            <canvas id="canvas" width="0px" height="0px"></canvas>
+            <div id="left"><center>
+                <article id="start">
+                    <span id="popup" onclick="dispEditor();" title="Cliquez pour revenir à l'image en cours d'édition.">x</span>
+                    <h2>Guide d'utilisation</h2>
+                    <div class="space"></div>
+                    <p>Avec cet outil de traîtement d'images sur le web, vous pourrez facilement modifier vos images avec différents filtres et outils.<br>Comment s'en servir ?</p><br>
+                    <h3>I. Utilisation globale</h3>
+                    <ol>
+                        <li>Sélectionnez une image sur votre ordinateur à l'aide du bouton "Charger une image" ou utilisez une des images de test dans la liste.</li>
+                        <li>Appliquez-lui des filtres à l'aide des curseurs réglables ou des boutons +/-.</li>
+                        <li>Revenez sur vos modifications à l'aide du bouton "Annuler".</li>
+                        <li>Utilisez le bouton <img src="Images/default.png" width="15px"> pour faire revenir un filtre à sa valeur par défaut.</li>
+                        <li>Lorsque vous avez fini, cliquez sur "Télécharger" pour sauvegarder l'image modifiée sur votre ordinateur.</li>
+                        <li>Pour modifier une nouvelle image, cliquez sur "Nouveau".</li>
+                    </ol><br>
+                    <h3>II. Attention</h3>
+                    <p>Veillez à utiliser cet outil pour modifier des images dont vous avez les droits. Ne modifiez et ne publiez jamais d'images modifiées qui ne vous appartiendraient pas sans l'autorisation de l'auteur.</p><br>
+                </article></center>
+            </div>
+            <div id="rightSpace"></div>
+        </section>
+        <div class="space"></div>
+        <div class="space"></div>
+        <footer>
+            <p>Ce projet à été réalisé en 2020 dans le cadre de la spécialité NSI en 1re <br> par Hugo COLLIN, élève au CNED et au lycée PMF Epinal.</p>
+        </footer>
+        <script src="script.js"></script>
+    </body>
+</html>

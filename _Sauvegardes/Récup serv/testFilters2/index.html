@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--<script src="script.js"></script>-->
+    </head>
+    <body>
+        <!--<canvas id="canvasid"></canvas>
+        <a id="download" download="triangle.png">
+            <button type="button" onClick="download()">Download</button>
+        </a>
+        <canvas id="myCanvas" width="720" height="450">Your browser does not support Canvas.</canvas>
+        <canvas id="canvas"></canvas>-->
+        
+        <canvas id ="cvs50" width ="282" height = "384">
+        votre navigateur n'accepte pas Canvas
+        </canvas>
+        <script>
+            var canv1 = document.getElementById('cvs50');
+            var context1 = canv1.getContext('2d');
+            var image1 = new Image();
+            image1.src = 'lyon.jpg'; //adresse de l'image
+            image1.onload = function () {
+                //canv1.width = image1.width;
+                //canv1.height = image1.height;
+                context1.drawImage(this,0,0);
+                var imageD = context1.getImageData(0,0,282,192);
+                var mapP = imageD.data;
+                for ( var i=0; i < mapP.length; i +=4) {
+                    mapP[i] *=1.3;
+                    mapP[i+1] /=1.2;
+                    mapP[i+2] /=1.2;
+                }; // fin for
+                context1.putImageData(imageD,0,193);
+            }; // fin fonction
+   </script>
+        
+    </body>
+</html>
