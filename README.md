@@ -1,3 +1,1 @@
-Compte-rendu audio : 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/p80VdDZLiNk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+Compte-rendu audio : https://youtu.be/p80VdDZLiNk
